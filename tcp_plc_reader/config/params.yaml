@@ -1,0 +1,34 @@
+tcp_plc_node:
+  ros__parameters:
+    # ── 통신 / 채널 ─────────────────────────────
+    plc_host: "10.10.10.1"
+    plc_port: 9000
+    int_scale: 100.0      # PLC에서 오는 정수 스케일 (100 → 1/100mm)
+
+    idx_l1: 10            # L1이 들어있는 채널 인덱스(0부터 시작)
+
+    # ── 전이/길이 튜닝 ──────────────────────────
+    line_speed_mm_s: 67.0   # 라인 속도(mm/s). 나중에 필요하면 조절.
+    thresh_up_mm: 7.0       # 박스→갭 : 이만큼 "상승"하면 OFF
+    thresh_down_mm: 7.0     # 갭→박스 : 이만큼 "하락"하면 ON
+
+    # ── 자동 종료(박스 끊기고 다음 ON 안 오면) ────
+    next_on_timeout_s: 5.0          # 마지막 BOX OFF 이후 기다리는 시간
+    auto_shutdown_on_timeout: false   # true면 타임아웃 후 자동으로 수신 루프 정지
+    
+    # ── 자동 시작(세션 OFF 상태에서 박스 들어오면 자동 START) ──
+    auto_start_on_box: true         # START 명령 없이도 박스 감지 시 세션 자동 시작
+    auto_start_debounce_s: 0.5      # 자동 START 최소 간격(노이즈/연속 트리거 방지)
+
+
+    # ── 소켓 / 재접속 ──────────────────────────
+    recv_timeout_s: 0.1
+    connect_timeout_s: 2.0
+    reconnect_delay_s: 2.0
+
+    # ── 시뮬레이터 / 디버그 ─────────────────────
+    simulate: false           # 실제 장비
+    debug_dump: false         # true면 수신 프레임 헤더/원시값 덤프
+    bypass_frame_check: false # true면 STX/ETX 체크 안 함
+    scan_head_n: 16           # 디버그로 찍을 앞쪽 값 개수
+
